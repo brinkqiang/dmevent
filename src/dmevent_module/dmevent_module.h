@@ -20,8 +20,9 @@
 // SOFTWARE.
 
 #include <memory>
+#include <atomic>
 
-#include "asio/io_context.hpp"
+#include "asio.hpp"
 
 #include "dmutil.h"
 #include "dmformat.h"
@@ -36,8 +37,9 @@ public:
 
     virtual void Init(void);
 
-    virtual bool Run(int event = 1000);
+    virtual bool Run(int event);
 
+    virtual bool Run();
     template <typename... Args>
     void Post(Args&& ... args)
     {
@@ -48,6 +50,8 @@ public:
 private:
     asio::io_context m_io_event;
     asio::io_context::work m_io_work;
+    asio::signal_set m_signals;
+    std::atomic_bool m_stop;
 };
 
 

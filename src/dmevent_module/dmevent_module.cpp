@@ -22,9 +22,20 @@
 #include "dmevent_module.h"
 
 Cdmevent_module::Cdmevent_module()
-    : m_io_work(m_io_event)
+    : m_io_work(m_io_event), m_signals(m_io_event), m_stop(false)
 {
+    m_signals.add(SIGINT);
+    m_signals.add(SIGTERM);
+    #if defined(SIGQUIT)
+    m_signals.add(SIGQUIT);
+    #endif // defined(SIGQUIT)
 
+    m_signals.async_wait(
+        [this](std::error_code ec, int signo)
+        {
+            m_io_event.stop();
+            m_stop = true;
+        });
 }
 
 Cdmevent_module::~Cdmevent_module()
@@ -60,6 +71,28 @@ bool Cdmevent_module::Run(int event)
         }
     }
 
+    return true;
+}
+
+bool Cdmevent_module::Run()
+{
+    bool bBusy = false;
+    while (!m_stop)
+    {
+        bBusy = false;
+        if (Run(100))
+        {
+            bBusy = true;
+        }
+        if (!bBusy)
+        {
+            SleepMs(1);
+        }
+    }
+
+    fmt::print("---------------------------------------------------------------\n");
+    fmt::print("{} dmevent loop {} ...\n", DMGetExeName(), "stop");
+    fmt::print("---------------------------------------------------------------\n");
     return true;
 }
 
