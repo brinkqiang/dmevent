@@ -8,6 +8,12 @@ int main( int argc, char* argv[] )
     if (module)
     {
         module->Init();
+        module->Post([module]()
+        {
+            fmt::print("---------------------------------------------------------------\n");
+            fmt::print("{} dmevent loop {} ...\n", DMGetExeName(), "running");
+            fmt::print("---------------------------------------------------------------\n");
+        });
         module->Run();
     }
 

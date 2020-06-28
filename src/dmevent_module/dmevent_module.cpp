@@ -20,8 +20,6 @@
 // SOFTWARE.
 
 #include "dmevent_module.h"
-#include "dmutil.h"
-#include "dmformat.h"
 
 Cdmevent_module::Cdmevent_module()
     : m_io_work(m_io_event)
@@ -34,19 +32,18 @@ Cdmevent_module::~Cdmevent_module()
 
 }
 
-void DMAPI Cdmevent_module::Init(void)
+void Cdmevent_module::Init(void)
 {
     auto self(shared_from_this());
-
     Post([this, self]()
     {
         fmt::print("---------------------------------------------------------------\n");
-        fmt::print("{} event loop {} ...\n", DMGetExeName(), "running");
+        fmt::print("{} dmevent loop {} ...\n", DMGetExeName(), "init");
         fmt::print("---------------------------------------------------------------\n");
     });
 }
 
-bool DMAPI Cdmevent_module::Run(void)
+bool Cdmevent_module::Run(int event)
 {
     int nEvent = m_io_event.poll_one();
 
@@ -55,7 +52,16 @@ bool DMAPI Cdmevent_module::Run(void)
         return false;
     }
 
-    m_io_event.poll_one();
+    for (int i=0; i < event; i++)
+    {
+        int nEvent = m_io_event.poll_one();
+
+        if (0 == nEvent)
+        {
+            return true;
+        }
+    }
+
     return true;
 }
 
