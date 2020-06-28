@@ -14,7 +14,7 @@ int main( int argc, char* argv[] )
             fmt::print("{} dmevent loop {} ...\n", DMGetExeName(), "running");
             fmt::print("---------------------------------------------------------------\n");
         });
-        module->Run();
+        module->RunUntil();
     }
 
     return 0;

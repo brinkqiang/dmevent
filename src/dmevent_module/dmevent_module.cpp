@@ -74,7 +74,7 @@ bool Cdmevent_module::Run(int event)
     return true;
 }
 
-bool Cdmevent_module::Run()
+bool Cdmevent_module::RunUntil()
 {
     bool bBusy = false;
     while (!m_stop)

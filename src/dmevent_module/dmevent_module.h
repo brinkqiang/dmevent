@@ -39,7 +39,8 @@ public:
 
     virtual bool Run(int event);
 
-    virtual bool Run();
+    virtual bool RunUntil();
+
     template <typename... Args>
     void Post(Args&& ... args)
     {
