@@ -45,9 +45,7 @@ void Cdmevent_module::Init(void)
 
 bool Cdmevent_module::Run(int event)
 {
-    int nEvent = m_io_event.poll_one();
-
-    if (0 == nEvent)
+    if (0 == m_io_event.poll_one())
     {
         return false;
     }
