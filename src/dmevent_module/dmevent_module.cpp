@@ -33,8 +33,11 @@ Cdmevent_module::Cdmevent_module()
     m_signals.async_wait(
         [this](std::error_code ec, int signo)
         {
-            m_io_event.stop();
-            m_stop = true;
+        fmt::print("---------------------------------------------------------------\n");
+        fmt::print("{} dmevent loop {} ...\n", DMGetExeName(), "stopping");
+        fmt::print("---------------------------------------------------------------\n");
+        m_io_event.stop();
+        m_stop = true;
         });
 }
 
