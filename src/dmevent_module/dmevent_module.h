@@ -19,17 +19,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "dmevent.h"
+#include "asio/io_context.hpp"
+#include "dmio_contextpool.h"
+#include <memory>
 
 class Cdmevent_module :
-    public Idmevent
+    public std::enable_shared_from_this<Cdmevent_module>
 {
 public:
     Cdmevent_module();
-    
+
     virtual ~Cdmevent_module();
 
-    virtual void DMAPI Release(void);
-	
-    virtual void DMAPI Test(void);	
+    virtual void DMAPI Init(void);
+
+    virtual bool DMAPI Run(void);
+
+    template <typename... Args>
+    void Post(Args&& ... args)
+    {
+        m_io_event.post(std::forward<Args>(args)...);
+    }
+    asio::io_context& GetIO();
+private:
+    asio::io_context m_io_event;
+    asio::io_context::work m_io_work;
 };
+
+
+std::shared_ptr<Cdmevent_module> dmeventGetModule();

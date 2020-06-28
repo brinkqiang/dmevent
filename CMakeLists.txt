@@ -15,8 +15,11 @@ SET(DMEVENT_VERSION "${DMEVENT_VERSION_MAJOR}.${DMEVENT_VERSION_MINOR}.${DMEVENT
 MESSAGE(STATUS "VERSION: ${DMEVENT_VERSION}")
 
 OPTION(USE_DMEVENT "use dmevent" OFF)
-CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/include/dmevent_config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/dmevent_config.h)
 
-ModuleImportAll("thirdparty")
+ADD_DEFINITIONS(-DASIO_STANDALONE)
+
+ModuleInclude("asio" "thirdparty/asio")
+ModuleImport("dmlog" "thirdparty/dmlog")
+
 LibImport("dmevent_module" "src/dmevent_module")
-ExeImport("example" "dmsys;dmevent_module")
+ExeImport("example" "dmevent_module")

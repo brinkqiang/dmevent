@@ -56,9 +56,9 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <thread>
 
 #include <winsock2.h>
-
 
 #include <windows.h>
 #include <direct.h>
@@ -84,8 +84,6 @@ using namespace stdext;
 
 #else
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <assert.h>
@@ -105,19 +103,24 @@ using namespace stdext;
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <thread>
 
+#include <unistd.h>
+#include <sys/syscall.h>
 #include <sys/types.h>
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <sys/socket.h>
+
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <pthread.h>
 
-#include <signal.h>
 #include <netdb.h>
 #include <limits.h>
-#include <unistd.h>
 
 #ifndef MAX_PATH
 #define MAX_PATH    PATH_MAX

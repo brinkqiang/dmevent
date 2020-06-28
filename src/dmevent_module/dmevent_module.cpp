@@ -20,8 +20,11 @@
 // SOFTWARE.
 
 #include "dmevent_module.h"
+#include "dmutil.h"
+#include "dmformat.h"
 
 Cdmevent_module::Cdmevent_module()
+    : m_io_work(m_io_event)
 {
 
 }
@@ -31,19 +34,37 @@ Cdmevent_module::~Cdmevent_module()
 
 }
 
-void DMAPI Cdmevent_module::Release(void)
+void DMAPI Cdmevent_module::Init(void)
 {
-    delete this;
+    auto self(shared_from_this());
+
+    Post([this, self]()
+    {
+        fmt::print("---------------------------------------------------------------\n");
+        fmt::print("{} event loop {} ...\n", DMGetExeName(), "running");
+        fmt::print("---------------------------------------------------------------\n");
+    });
 }
 
-void DMAPI Cdmevent_module::Test(void)
+bool DMAPI Cdmevent_module::Run(void)
 {
-    std::cout << "PROJECT_NAME = dmevent" << std::endl;
-    std::cout << "PROJECT_NAME_UP = DMEVENT" << std::endl;
-    std::cout << "PROJECT_NAME_LO = dmevent" << std::endl;
+    int nEvent = m_io_event.poll_one();
+
+    if (0 == nEvent)
+    {
+        return false;
+    }
+
+    m_io_event.poll_one();
+    return true;
 }
 
-Idmevent* DMAPI dmeventGetModule()
+asio::io_context& Cdmevent_module::GetIO()
 {
-    return new Cdmevent_module();
+    return m_io_event;
+}
+
+std::shared_ptr<Cdmevent_module> dmeventGetModule()
+{
+    return std::make_shared<Cdmevent_module>();
 }

@@ -1,13 +1,15 @@
 
-#include "dmevent.h"
+#include "dmevent_module.h"
 
-int main( int argc, char* argv[] ) {
+int main( int argc, char* argv[] )
+{
+    std::shared_ptr<Cdmevent_module> module = dmeventGetModule();
 
-    Idmevent* module = dmeventGetModule();
     if (module)
     {
-        module->Test();
-        module->Release();
+        module->Init();
+        module->Run();
     }
+
     return 0;
 }
