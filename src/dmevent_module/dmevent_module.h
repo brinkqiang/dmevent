@@ -41,6 +41,8 @@ public:
 
     virtual bool RunUntil();
 
+    virtual void OnStop();
+
     template <typename... Args>
     void Post(Args&& ... args)
     {

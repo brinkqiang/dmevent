@@ -38,6 +38,7 @@ Cdmevent_module::Cdmevent_module()
         fmt::print("---------------------------------------------------------------\n");
         m_io_event.stop();
         m_stop = true;
+        OnStop();
         });
 }
 
@@ -75,6 +76,11 @@ bool Cdmevent_module::Run(int event)
     }
 
     return true;
+}
+
+void Cdmevent_module::OnStop()
+{
+
 }
 
 bool Cdmevent_module::RunUntil()
