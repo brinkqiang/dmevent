@@ -106,5 +106,12 @@ asio::io_context& Cdmevent_module::GetIO()
 
 std::shared_ptr<Cdmevent_module> dmeventGetModule()
 {
-    return std::make_shared<Cdmevent_module>();
+    static std::once_flag m_oOnce;
+    static std::shared_ptr<Cdmevent_module> module;
+    std::call_once(m_oOnce, [&]()
+    {
+        module = std::make_shared<Cdmevent_module>();
+    });
+
+    return module;
 }
