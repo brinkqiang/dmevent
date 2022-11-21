@@ -14,6 +14,17 @@ int main(int argc, char* argv[])
             fmt::print("{} dmevent loop {} ...\n", DMGetExeName(), "running");
             fmt::print("---------------------------------------------------------------\n");
         });
+
+        int x = 100;
+        int y = 88;
+        int z = 99;
+        module->Post([module, x, y , z]()
+        {
+            fmt::print("---------------------------------------------------------------\n");
+            fmt::print("{} {} {} ...\n", x, y, z);
+            fmt::print("---------------------------------------------------------------\n");
+        });
+
         module->RunUntil();
     }
 
