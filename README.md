@@ -26,6 +26,5 @@ dmevent
 ```cpp
 ```
 ## Contacts
-[![Join the chat](https://badges.gitter.im/brinkqiang/dmevent/Lobby.svg)](https://gitter.im/brinkqiang/dmevent)
 
 ## Thanks
