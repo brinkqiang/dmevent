@@ -24,8 +24,38 @@ Copyright (c) 2013-2018 brinkqiang (brink.qiang@gmail.com)
 ## Intro
 dmevent
 ```cpp
+#include "dmevent_module.h"
+
+int main(int argc, char* argv[])
+{
+    std::shared_ptr<CDMEventModule> module = dmeventGetModule();
+
+    if (module)
+    {
+        module->Init();
+        module->Post([module]()
+        {
+            fmt::print("---------------------------------------------------------------\n");
+            fmt::print("{} dmevent loop {} ...\n", DMGetExeName(), "running");
+            fmt::print("---------------------------------------------------------------\n");
+        });
+
+		int x = 100;
+		int y = 88;
+		int z = 99;
+        module->Post([module, x, y , z]()
+        {
+            fmt::print("---------------------------------------------------------------\n");
+            fmt::print("{} {} {} ...\n", x, y, z);
+            fmt::print("---------------------------------------------------------------\n");
+        });
+
+        module->RunUntil();
+    }
+
+    return 0;
+}
 ```
 ## Contacts
-[![Join the chat](https://badges.gitter.im/brinkqiang/dmevent/Lobby.svg)](https://gitter.im/brinkqiang/dmevent)
 
 ## Thanks
