@@ -10,16 +10,16 @@ Copyright (c) 2013-2018 brinkqiang (brink.qiang@gmail.com)
 [![GitHub forks](https://img.shields.io/github/forks/brinkqiang/dmevent.svg?label=Fork)](https://github.com/brinkqiang/dmevent)
 
 ## Build status
-| [Linux][lin-link] | [MacOSX][osx-link] | [Windows][win-link] |
+| [Linux][lin-link] | [Mac][mac-link] | [Windows][win-link] |
 | :---------------: | :----------------: | :-----------------: |
-| ![lin-badge]      | ![osx-badge]       | ![win-badge]        |
+| ![lin-badge]      | ![mac-badge]       | ![win-badge]        |
 
-[lin-badge]: https://travis-ci.org/brinkqiang/dmevent.svg?branch=master "Travis build status"
-[lin-link]:  https://travis-ci.org/brinkqiang/dmevent "Travis build status"
-[osx-badge]: https://travis-ci.org/brinkqiang/dmevent.svg?branch=master "Travis build status"
-[osx-link]:  https://travis-ci.org/brinkqiang/dmevent "Travis build status"
-[win-badge]: https://ci.appveyor.com/api/projects/status/github/brinkqiang/dmevent?branch=master&svg=true "AppVeyor build status"
-[win-link]:  https://ci.appveyor.com/project/brinkqiang/dmevent "AppVeyor build status"
+[lin-badge]: https://github.com/brinkqiang/dmevent/workflows/linux/badge.svg "linux build status"
+[lin-link]:  https://github.com/brinkqiang/dmevent/actions/workflows/linux.yml "linux build status"
+[mac-badge]: https://github.com/brinkqiang/dmevent/workflows/mac/badge.svg "mac build status"
+[mac-link]:  https://github.com/brinkqiang/dmevent/actions/workflows/mac.yml "mac build status"
+[win-badge]: https://github.com/brinkqiang/dmevent/workflows/win/badge.svg "win build status"
+[win-link]:  https://github.com/brinkqiang/dmevent/actions/workflows/win.yml "win build status"
 
 ## Intro
 dmevent
