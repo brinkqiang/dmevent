@@ -44,12 +44,16 @@ CDMEventModule::CDMEventModule()
 
 CDMEventModule::~CDMEventModule()
 {
-
+    m_thread.join();
 }
 
 void CDMEventModule::Init(void)
 {
-    auto self(shared_from_this());
+	auto self(shared_from_this());
+
+	std::thread ioThread([self]() { self->GetIO().run(); });
+	m_thread = std::move(ioThread);
+
     Post([this, self]()
     {
         fmt::print("---------------------------------------------------------------\n");

@@ -28,33 +28,69 @@
 #include "dmformat.h"
 
 class CDMEventModule :
-    public std::enable_shared_from_this<CDMEventModule>
+	public std::enable_shared_from_this<CDMEventModule>
 {
 public:
-    CDMEventModule();
+	CDMEventModule();
 
-    virtual ~CDMEventModule();
+	virtual ~CDMEventModule();
 
-    virtual void Init(void);
+	virtual void Init(void);
 
-    virtual bool Run(int event);
+	virtual bool Run(int event);
 
-    virtual bool RunUntil();
+	virtual bool RunUntil();
 
-    virtual void OnStop();
+	virtual void OnStop();
 
-    template <typename... Args>
-    void Post(Args&& ... args)
-    {
-        m_io_event.post(std::forward<Args>(args)...);
-    }
-    asio::io_context& GetIO();
+	template <typename... Args>
+	void Post(Args&& ... args)
+	{
+		m_io_event.post(std::forward<Args>(args)...);
+	}
+
+	template <typename Func, typename... Args>
+	auto Call(Func&& func, Args&&... args)
+		-> typename std::invoke_result<Func, Args...>::type {
+		using ReturnType = typename std::invoke_result<Func, Args...>::type;
+
+		std::promise<ReturnType> resultPromise;
+		auto resultFuture = resultPromise.get_future();
+
+		m_io_event.post([&resultPromise, &func, &args...]() {
+			try {
+				if constexpr (std::is_void_v<ReturnType>) {
+					std::invoke(std::forward<Func>(func), std::forward<Args>(args)...);
+					resultPromise.set_value();
+				}
+				else {
+					resultPromise.set_value(
+						std::invoke(std::forward<Func>(func), std::forward<Args>(args)...));
+				}
+			}
+			catch (...) {
+				resultPromise.set_exception(std::current_exception());
+			}
+		});
+
+		resultFuture.wait();
+		return resultFuture.get();
+	}
+
+	template <auto Func, typename... Args>
+	auto Call(Args&&... args)
+		-> typename std::invoke_result<decltype(Func), Args...>::type {
+		return Call(Func, std::forward<Args>(args)...);
+	}
+
+	asio::io_context& GetIO();
 
 private:
-    asio::io_context m_io_event;
-    asio::io_context::work m_io_work;
-    asio::signal_set m_signals;
-    std::atomic_bool m_stop;
+	asio::io_context m_io_event;
+	asio::io_context::work m_io_work;
+	std::thread m_thread;
+	asio::signal_set m_signals;
+	std::atomic_bool m_stop;
 };
 
 
