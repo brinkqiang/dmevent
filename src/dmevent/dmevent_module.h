@@ -107,7 +107,7 @@ public:
 	}
 	// ×¢²áÊÂ¼þ
 	template <typename... Args>
-	auto CallEvent(const EventKey& eventName, Args&&... args) {
+	auto CallRouter(const EventKey& eventName, Args&&... args) {
 		auto it = m_eventHandlers.find(eventName);
 		if (it == m_eventHandlers.end()) {
 			throw std::runtime_error("Event not found: " + eventName);
@@ -138,7 +138,7 @@ public:
 	}
 
 	template <typename Func>
-	void RegisterEvent(const EventKey& eventName, Func&& handler) {
+	void RegisterRouter(const EventKey& eventName, Func&& handler) {
 		using ParametersType = util::function_parameters_t<Func>;
 		using ReturnType = util::function_return_type_t<Func>;
 
@@ -159,8 +159,6 @@ private:
 
 
 std::shared_ptr<CDMEventModule> dmeventGetModule();
-
-static std::shared_ptr<CDMEventModule> dmevent_module = dmeventGetModule();
 
 #define DMEVENT_INIT() dmevent_module->Init()
 #define DMEVENT_BEGIN dmevent_module->Post([=]()
