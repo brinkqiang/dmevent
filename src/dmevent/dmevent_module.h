@@ -142,13 +142,15 @@ public:
 		using ParametersType = util::function_parameters_t<Func>;
 		using ReturnType = util::function_return_type_t<Func>;
 
-		std::cout << "Registering event: " << eventName << std::endl;
-		std::cout << "ParametersType: " << typeid(ParametersType).name() << std::endl;
-		std::cout << "ReturnType: " << typeid(ReturnType).name() << std::endl;
+		//std::cout << "Registering event: " << eventName << std::endl;
+		//std::cout << "ParametersType: " << typeid(ParametersType).name() << std::endl;
+		//std::cout << "ReturnType: " << typeid(ReturnType).name() << std::endl;
 
-		m_eventHandlers[eventName] = [handler = std::forward<Func>(handler)](auto args)->ReturnType {
+		m_eventHandlers[eventName] = [handler = std::forward<Func>(handler)](auto args) {
 
 			auto tupleArgs = std::any_cast<ParametersType>(args);
+
+			//return std::apply(handler, tupleArgs);
 			return CallHandler(handler, tupleArgs);
 		};
 	}

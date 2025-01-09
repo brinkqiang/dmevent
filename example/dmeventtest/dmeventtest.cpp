@@ -34,31 +34,32 @@ int main(int argc, char* argv[])
         auto ret = module->Call<Add>( 1, 2);
         fmt::print("{} + {} = {}\n", 1, 2, ret);
 
-		module->RegisterRouter("int", [](const int& name, const int& value) ->int
+		module->RegisterRouter("/getid", [](const int& a, const int& b) ->int
 			{
-				fmt::print("event: {} {}\n", name, value);
+				fmt::print("getid: {} {}\n", a, b);
 
-				return name + value;
+				return a + b;
 			});
 
-        module->RegisterRouter("test", [](const std::string& name, const std::string& value) ->std::string
+        module->RegisterRouter("/helloworld", [](const std::string& name, const std::string& value) ->std::string
         {
-            fmt::print("event: {} {}\n", name, value);
+            fmt::print("helloworld: {} {}\n", name, value);
 
             return name + value;
         });
-        module->RegisterRouter("test2", [](const std::string& name, const std::string& value, int nID) ->std::string
+        module->RegisterRouter("/helloworld_getid", [](const std::string& name, const std::string& value, int nID) ->std::string
         {
-            fmt::print("event: {} {} {}\n", name, value, nID);
+            fmt::print("helloworld_getid: {} {} {}\n", name, value, nID);
             return name + value + std::to_string(nID);
         });
-		auto ret4 = module->CallRouter("int", 1, 2);
 
-        auto ret2 = module->CallRouter("test", "hello", "world");
+		auto router_ret = module->CallRouter("/helloworld", "hello", "world");
 
-        auto ret3 = module->CallRouter("test2", "hello", "world", 1);
+		auto router_ret2 = module->CallRouter("/getid", 1, 2);
+
+        auto router_ret3 = module->CallRouter("/helloworld_getid", "hello", "world", 3);
      
-        fmt::print("{} + {} = {}\n", std::any_cast<int>(ret4), std::any_cast<std::string>(ret2), std::any_cast<std::string>(ret3));
+        fmt::print("{} + {} = {}\n", std::any_cast<std::string>(router_ret), std::any_cast<int>(router_ret2), std::any_cast<std::string>(router_ret3));
     }
 
     return 0;
