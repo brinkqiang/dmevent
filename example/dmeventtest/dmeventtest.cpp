@@ -33,6 +33,31 @@ int main(int argc, char* argv[])
 
         auto ret = module->Call<Add>( 1, 2);
         fmt::print("{} + {} = {}\n", 1, 2, ret);
+		module->RegisterEvent("int", [](const int& name, const int& value) ->int
+			{
+				fmt::print("event: {} {}\n", name, value);
+
+				return name + value;
+			});
+
+        module->RegisterEvent("test", [](const std::string& name, const std::string& value) ->std::string
+        {
+            fmt::print("event: {} {}\n", name, value);
+
+            return name + value;
+        });
+        module->RegisterEvent("test2", [](const std::string& name, const std::string& value, int nID) ->std::string
+        {
+            fmt::print("event: {} {} {}\n", name, value, nID);
+            return name + value + std::to_string(nID);
+        });
+		auto ret4 = module->CallEvent("int", 1, 2);
+
+        auto ret2 = module->CallEvent("test", "hello", "world");
+
+        auto ret3 = module->CallEvent("test2", "hello", "world", 1);
+     
+        fmt::print("{} + {} = {}\n", std::any_cast<int>(ret4), std::any_cast<std::string>(ret2), std::any_cast<std::string>(ret3));
     }
 
     return 0;
