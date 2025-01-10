@@ -63,9 +63,9 @@ public:
 		auto tupleArgs = ConvertArgsToString(std::forward<Args>(args)...);
 
 		// 调用 handler 并返回结果
-		using ReturnType = util::function_return_type_t<std::decay_t<decltype(handler)>>;
+		//using ReturnType = util::function_return_type_t<std::decay_t<decltype(handler)>>;
 
-		ReturnType result = handler(std::make_any<decltype(tupleArgs)>(tupleArgs));
+		auto result = handler(std::make_any<decltype(tupleArgs)>(tupleArgs));
 
 		return result;
 	}
@@ -86,10 +86,6 @@ public:
 	void RegisterRouter(const EventKey& eventName, Func&& handler) {
 		using ParametersType = util::function_parameters_t<Func>;
 		using ReturnType = util::function_return_type_t<Func>;
-
-		//std::cout << "Registering event: " << eventName << std::endl;
-		//std::cout << "ParametersType: " << typeid(ParametersType).name() << std::endl;
-		//std::cout << "ReturnType: " << typeid(ReturnType).name() << std::endl;
 
 		m_eventHandlers[eventName] = [handler = std::forward<Func>(handler)](auto args) {
 
