@@ -63,9 +63,9 @@ public:
 		auto tupleArgs = ConvertArgsToString(std::forward<Args>(args)...);
 
 		// 调用 handler 并返回结果
-		//using ReturnType = util::function_return_type_t<std::decay_t<decltype(handler)>>;
+		using ReturnType = util::function_return_type_t<std::decay_t<decltype(handler)>>;
 
-		auto result = handler(std::make_any<decltype(tupleArgs)>(tupleArgs));
+		ReturnType result = handler(std::make_any<decltype(tupleArgs)>(tupleArgs));
 
 		return result;
 	}
