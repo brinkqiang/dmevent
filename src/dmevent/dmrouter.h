@@ -91,7 +91,6 @@ public:
 
 			auto tupleArgs = std::any_cast<ParametersType>(args);
 
-			//return std::apply(handler, tupleArgs);
 			return CallHandler(handler, tupleArgs);
 		};
 	}
