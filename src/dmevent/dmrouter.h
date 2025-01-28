@@ -45,7 +45,7 @@ public:
 	using EventKey = std::string;
 
 	template <typename... Args>
-	auto ConvertArgsToString(Args&&... args) {
+	static auto ConvertArgsToString(Args&&... args) {
 		// 使用递归转换，将 const char* 转换为 std::string
 		return std::tuple<std::conditional_t<std::is_same_v<std::decay_t<Args>, const char*>, std::string, std::decay_t<Args>>...>(
 			std::forward<Args>(args)...);
