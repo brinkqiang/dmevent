@@ -1,5 +1,6 @@
 
 #include "dmevent_module.h"
+#include "dmformat.h"
 
 int Add(int a, int b) {
 	return a + b;

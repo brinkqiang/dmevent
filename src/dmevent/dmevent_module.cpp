@@ -20,6 +20,7 @@
 // SOFTWARE.
 
 #include "dmevent_module.h"
+#include "dmformat.h"
 
 CDMEventModule::CDMEventModule()
     : m_io_work(m_io_event), m_signals(m_io_event), m_stop(false)
