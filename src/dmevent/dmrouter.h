@@ -1,4 +1,4 @@
-
+ï»¿
 // Copyright (c) 2018 brinkqiang (brink.qiang@gmail.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -46,11 +46,11 @@ public:
 
 	template <typename... Args>
 	static auto ConvertArgsToString(Args&&... args) {
-		// Ê¹ÓÃµİ¹é×ª»»£¬½« const char* ×ª»»Îª std::string
+		// ä½¿ç”¨é€’å½’è½¬æ¢ï¼Œå°† const char* è½¬æ¢ä¸º std::string
 		return std::tuple<std::conditional_t<std::is_same_v<std::decay_t<Args>, const char*>, std::string, std::decay_t<Args>>...>(
 			std::forward<Args>(args)...);
 	}
-	// ×¢²áÊÂ¼ş
+	// æ³¨å†Œäº‹ä»¶
 	template <typename... Args>
 	auto CallRouter(const EventKey& eventName, Args&&... args) {
 		auto it = m_eventHandlers.find(eventName);
@@ -62,7 +62,7 @@ public:
 
 		auto tupleArgs = ConvertArgsToString(std::forward<Args>(args)...);
 
-		// µ÷ÓÃ handler ²¢·µ»Ø½á¹û
+		// è°ƒç”¨ handler å¹¶è¿”å›ç»“æœ
 		using ReturnType = util::function_return_type_t<std::decay_t<decltype(handler)>>;
 
 		ReturnType result = handler(std::make_any<decltype(tupleArgs)>(tupleArgs));
@@ -70,7 +70,7 @@ public:
 		return result;
 	}
 
-	// µ÷ÓÃº¯Êı¹¤¾ß
+	// è°ƒç”¨å‡½æ•°å·¥å…·
 	template <typename Func, typename Tuple, size_t... Is>
 	static auto CallHandlerImpl(Func&& func, Tuple& args, std::index_sequence<Is...>) {
 		return func(std::get<Is>(args)...);
