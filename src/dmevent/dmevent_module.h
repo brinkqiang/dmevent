@@ -18,6 +18,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+#ifndef __DM_EVENT_MODULE_H_INCLUDE__
+#define __DM_EVENT_MODULE_H_INCLUDE__
 
 #include <memory>
 #include <atomic>
@@ -27,6 +29,7 @@
 #include "asio.hpp"
 
 #include "dmutil.h"
+#include "dmformat.h"
 
 class CDMEventModule :
 	public std::enable_shared_from_this<CDMEventModule>
@@ -104,3 +107,5 @@ std::shared_ptr<CDMEventModule> dmeventGetModule();
 
 #define DMEVENT_RUN_UNTIL() dmevent_module->RunUntil()
 #define DMEVENT_RUN(n) dmevent_module->Run(n)
+
+#endif // __DM_EVENT_MODULE_H_INCLUDE__
