@@ -1,8 +1,6 @@
 
-#include "dmrouter.h"
-
 #include "dmevent_module.h"
-
+#include "dmformat.h"
 
 int Add(int a, int b) {
 	return a + b;
@@ -39,44 +37,5 @@ int main(int argc, char* argv[])
     }
 
 
-	std::shared_ptr<CDMRouterModule> router = dmrouterGetModule();
-	if (router)
-	{
-		router->RegisterRouter("/getid", [](const int& a, const int& b) ->int
-			{
-				fmt::print("getid: {} {}\n", a, b);
-
-				return a + b;
-			});
-
-		router->RegisterRouter("/helloworld", [](const std::string& name, const std::string& value) ->std::string
-			{
-				fmt::print("helloworld: {} {}\n", name, value);
-
-				return name + value;
-			});
-		router->RegisterRouter("/helloworld_getid", [](const std::string& name, const std::string& value, int nID) ->std::string
-			{
-				fmt::print("helloworld_getid: {} {} {}\n", name, value, nID);
-				return name + value + std::to_string(nID);
-			});
-
-		auto router_ret = router->CallRouter("/helloworld", "hello", "world");
-
-		auto router_ret2 = router->CallRouter("/getid", 1, 2);
-
-		auto router_ret3 = router->CallRouter("/helloworld_getid", "hello", "world", 3);
-
-		fmt::print("{} + {} = {}\n", std::any_cast<std::string>(router_ret), std::any_cast<int>(router_ret2), std::any_cast<std::string>(router_ret3));
-
-		try
-		{
-			auto router_ret4 = router->CallRouter("/helloworld_getid", "hello", "world", "world");
-		}
-		catch (const std::exception& e)
-		{
-			fmt::print("error: {}\n", e.what());
-		}
-	}
     return 0;
 }
