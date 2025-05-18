@@ -25,7 +25,7 @@
 #include <atomic>
 #include <vector>
 #include <any>
-
+#include <functional>
 #include "asio.hpp"
 
 #include "dmutil.h"
