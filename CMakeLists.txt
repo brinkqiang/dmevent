@@ -22,4 +22,7 @@ ModuleInclude("asio" "thirdparty/asio")
 ModuleImport("dmlog" "thirdparty/dmlog")
 
 LibImport("dmevent" "src/dmevent")
-ExeImport("example" "dmevent")
+
+if(PROJECT_IS_TOP_LEVEL)
+    ExeImport("example" "dmevent")
+endif()
