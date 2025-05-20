@@ -28,6 +28,7 @@
 #include <functional>
 #include "asio.hpp"
 
+#include "dmutil.h"
 
 class CDMEventModule :
 	public std::enable_shared_from_this<CDMEventModule>

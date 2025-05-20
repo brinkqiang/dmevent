@@ -102,7 +102,7 @@ bool CDMEventModule::RunUntil()
         }
         if (!bBusy)
         {
-            std::this_thread::sleep_for(1ms);
+            SleepMs(1);
         }
     }
 
