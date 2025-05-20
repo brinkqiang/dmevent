@@ -13,5 +13,5 @@ ModuleSetCompileOptions()
 ModuleImport("dmformat" "thirdparty/dmformat")
 
 if(PROJECT_IS_TOP_LEVEL)
-    ExeImport("test" "")
+    ExeImport("test" "dmformat")
 endif()
